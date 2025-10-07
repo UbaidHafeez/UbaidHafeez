@@ -1,0 +1,129 @@
+{
+  "name": "SEND A MOTIVATION QUOTES",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        64,
+        -32
+      ],
+      "id": "1183a400-6930-4fb9-ba59-16fdaf49345b",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "\"Write one original motivational quote (2–3 lines) about life’s hardships and difficulties. The quote should be uplifting, powerful, and full of hope, showing resilience and strength.",
+        "hasOutputParser": true,
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        272,
+        -32
+      ],
+      "id": "6abfe0a1-ec56-41d0-bebc-81a14cfba2d8",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        272,
+        160
+      ],
+      "id": "17e1419b-c97e-452c-baba-1a76a6759ab0",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "dtD3s02qLnPCjGsa",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ubaidhafeez824@gmail.com",
+        "subject": "🌟 Daily Motivation Email",
+        "message": "=<!DOCTYPE html> <html>   <body style=\"font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px;\">     <div style=\"max-width: 600px; margin: auto; background: #ffffff; border-radius: 12px; padding: 20px; box-shadow: 0px 4px 12px rgba(0,0,0,0.1);\">              <!-- Header -->       <h2 style=\"text-align: center; color: #ff6b6b; margin-bottom: 10px;\">🌅 Today’s Strength Reminder</h2>       <hr style=\"border: none; border-top: 2px solid #eee; margin: 20px 0;\">              <!-- Quote Section -->       <p style=\"font-size: 18px; color: #333; text-align: center; line-height: 1.6; padding: 0 10px;\">         ✨ <em>\"   {{ $json.text }}       .\"</em> ✨       </p>              <hr style=\"border: none; border-top: 2px solid #eee; margin: 20px 0;\">              <!-- Closing -->       <p style=\"font-size: 16px; color: #444; text-align: center;\">         🌻 Keep moving forward — every challenge you face is proof of your strength. <br>         💪 Brighter days are already on the way. 🌟       </p>              <!-- Footer -->       <p style=\"text-align: center; font-size: 14px; color: #999; margin-top: 30px;\">         Sent with ❤️ <strong></strong>       </p>     </div>   </body> </html>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        624,
+        -32
+      ],
+      "id": "8f2febdf-3e8e-4fd9-95a6-f1d6c6b9274e",
+      "name": "Send a message",
+      "webhookId": "b565abc1-f325-4460-8db3-59e2efb8d081",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "G6zlK4sE1TR74RC5",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "96745808-f8ca-4a39-aefe-3a9d2ce8f78f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c23b820a81e00956ffc516b41d09bc89e6e795b055ef246bae12085334922165"
+  },
+  "id": "KHzlvz8vo0wz4nxE",
+  "tags": []
+}
