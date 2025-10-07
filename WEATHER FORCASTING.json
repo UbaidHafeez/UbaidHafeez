@@ -1,0 +1,104 @@
+{
+  "name": "WEATHER FORCASTING",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "triggerAtMinute": 24
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "91236879-9af1-46de-9f57-4367a66ed20a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "sendTo": "hafeezubaid161@gmail.com",
+        "subject": "Wheather Forcasting",
+        "message": "=<div style=\"font-family: Arial, sans-serif; padding: 15px; border-radius: 12px; background: #f4f7fb; color: #333; line-height: 1.6;\">\n  <h2 style=\"text-align:center; color:#0077cc;\">🌤 Daily Weather Forecast</h2>\n  \n  <p><strong>📍 Location:</strong> {{$json[\"name\"]}}</p>\n  <p><strong>🌡 Temperature:</strong> {{$json[\"main\"][\"temp\"]}} °C</p>\n  <p><strong>😎 Feels Like:</strong> {{$json[\"main\"][\"feels_like\"]}} °C</p>\n  <p><strong>🌥 Condition:</strong> {{$json[\"weather\"][0][\"description\"]}}</p>\n  <p><strong>💧 Humidity:</strong> {{$json[\"main\"][\"humidity\"]}} %</p>\n\n  <hr style=\"margin:15px 0;\">\n\n  <div style=\"text-align:center; font-size: 16px; padding:10px; border-radius:10px; background:#fff3cd; color:#856404;\">\n    🌟 <strong>Today’s Weather Vibe</strong> 🌟<br>\n    {{ $json[\"main\"][\"temp\"] < 20 \n       ? \"❄️ A bit chilly! Perfect for coffee & a hoodie.\" \n       : $json[\"main\"][\"temp\"] < 30 \n         ? \"🌞 Great weather! Perfect for a walk or camping ⛺.\" \n         : \"🔥 Pretty hot! Stay hydrated and avoid the midday sun.\" }}\n  </div>\n\n  <p style=\"font-size:12px; color:#888; margin-top:20px; text-align:center;\">\n    ✉️ This email was sent automatically with <strong>n8n</strong>\n  </p>\n</div>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        432,
+        16
+      ],
+      "id": "b1d80986-c271-4e4c-b879-5e230e20552a",
+      "name": "Send a message",
+      "webhookId": "fca6ca82-f4d8-4f70-ad8e-589bd9ac0854",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "BWo3qPaAcUbTs7ad",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "cityName": "Rawalpindi",
+        "language": "English"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "50f87a77-44bd-4ac6-a87c-74c2b42bb747",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "LPEjr2oFIEpksUoR",
+          "name": "OpenWeatherMap account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "27ef4697-3bc7-43af-b0b8-7aac203221d0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c23b820a81e00956ffc516b41d09bc89e6e795b055ef246bae12085334922165"
+  },
+  "id": "1C1hnMSiyKcNHjY6",
+  "tags": []
+}
